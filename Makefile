@@ -4,6 +4,9 @@ build:
 run:
 	docker-compose up todo-app
 
+run-dev:
+	go run cmd/main.go
+
 test:
 	go test -v ./...
 
