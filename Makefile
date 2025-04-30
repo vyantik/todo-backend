@@ -1,3 +1,6 @@
+include .env
+export
+
 build:
 	docker-compose build todo-app
 
@@ -11,7 +14,10 @@ test:
 	go test -v ./...
 
 migrate:
-	migrate -path ./schema -database 'postgres://postgres:qwerty@0.0.0.0:5436/postgres?sslmode=disable' up
+	migrate -path ./schema -database '${POSTGRES_URI}' up
+
+migrate-down:
+	migrate -path ./schema -database '${POSTGRES_URI}' down
 
 swag:
 	swag init -g cmd/main.go
