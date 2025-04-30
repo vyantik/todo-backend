@@ -7,6 +7,7 @@ import (
 	"runtime"
 
 	"github.com/joho/godotenv"
+	_ "github.com/lib/pq"
 	"github.com/spf13/viper"
 	"github.com/vyantik/todo-backend"
 	"github.com/vyantik/todo-backend/pkg/handler"
@@ -25,7 +26,19 @@ func main() {
 		log.Fatalf("error initializing configs: %s", err.Error())
 	}
 
-	repos := repository.NewRepository()
+	db, err := repository.NewPostgresDB(repository.Config{
+		Host:     os.Getenv("POSTGRES_HOST"),
+		Port:     os.Getenv("POSTGRES_PORT"),
+		Username: os.Getenv("POSTGRES_USER"),
+		Password: os.Getenv("POSTGRES_PASSWORD"),
+		DBName:   os.Getenv("POSTGRES_DB"),
+		SSLMode:  os.Getenv("POSTGRES_SSLMODE"),
+	})
+	if err != nil {
+		log.Fatalf("error initializing db: %s", err.Error())
+	}
+
+	repos := repository.NewRepository(db)
 	services := service.NewService(repos)
 	handler := handler.NewHandler(services)
 
