@@ -27,7 +27,7 @@ func (h *Handler) createList(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, statusResponse{Status: "ok"})
+	c.JSON(http.StatusCreated, statusResponse{Status: "created"})
 }
 
 type getAllListsResponse struct {
