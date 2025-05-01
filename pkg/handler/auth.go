@@ -7,6 +7,16 @@ import (
 	"github.com/vyantik/todo-backend"
 )
 
+// @Summary Регистрация нового пользователя
+// @Tags Аутентификация
+// @Description Регистрация нового пользователя в системе
+// @Accept json
+// @Produce json
+// @Param input body todo.User true "Данные пользователя"
+// @Success 200 {object} map[string]interface{} "Успешная регистрация"
+// @Failure 400 {object} ErrorResponse "Неверный формат данных"
+// @Failure 500 {object} ErrorResponse "Внутренняя ошибка сервера"
+// @Router /auth/sign-up [post]
 func (h *Handler) signUp(c *gin.Context) {
 	var input todo.User
 
@@ -31,6 +41,16 @@ type signInInput struct {
 	Password string `json:"password" binding:"required"`
 }
 
+// @Summary Вход в систему
+// @Tags Аутентификация
+// @Description Аутентификация пользователя и получение JWT токена
+// @Accept json
+// @Produce json
+// @Param input body signInInput true "Учетные данные"
+// @Success 200 {object} map[string]interface{} "Успешный вход"
+// @Failure 400 {object} ErrorResponse "Неверный формат данных"
+// @Failure 500 {object} ErrorResponse "Неверные учетные данные"
+// @Router /auth/sign-in [post]
 func (h *Handler) signIn(c *gin.Context) {
 	var input signInInput
 	if err := c.BindJSON(&input); err != nil {
