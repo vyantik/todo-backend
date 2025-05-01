@@ -2,10 +2,10 @@ include .env
 export
 
 build:
-	docker-compose build todo-app
+	go build -o todo-app cmd/main.go
 
 run:
-	docker-compose up todo-app
+	./todo-app
 
 run-dev:
 	go run cmd/main.go
